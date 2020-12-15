@@ -12,5 +12,6 @@ public:
 	invoice(int=0, int=0, string="", int=0);
 	~invoice();
 	friend ostream& operator<<(ostream&, const invoice&);
+	
 };
 

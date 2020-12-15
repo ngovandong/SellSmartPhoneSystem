@@ -16,3 +16,11 @@ ostream& operator<<(ostream& o, const customer& c)
 	o << "Address: " << c.address << endl;
 	return o;
 }
+
+istream& operator>>(istream& i, customer& C)
+{
+	cout << "Customer name: "; i >> C.customer_name;
+	cout << "Phonenumber: "; i >> C.phonenumber;
+	cout << "Address: "; i >> C.address;
+	return i;
+}

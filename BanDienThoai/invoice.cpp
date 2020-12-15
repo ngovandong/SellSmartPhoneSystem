@@ -16,3 +16,5 @@ ostream& operator<<(ostream& o, const invoice& t)
 	o << "Total: " << t.total << endl;
 	return o;
 }
+
+

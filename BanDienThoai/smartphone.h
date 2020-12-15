@@ -23,10 +23,8 @@ protected:
 public:
 	smartphone(int=0,string= "", string = "",int=0,int=0,int=0,int=0,int=0,int=0,float=0, string = "",int=0, string = "", string = "");
 	~smartphone();
-	void print();
-	void scan();
-	void update();
 	friend ostream& operator<<(ostream&, const smartphone&);
 	friend istream& operator>>(istream&, smartphone&);
+	friend class LIST;
 };
 

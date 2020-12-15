@@ -22,65 +22,7 @@ smartphone::smartphone(int id, string name, string brand, int price, int qty, in
 smartphone::~smartphone() {
 
 }
-void smartphone::print()
-{
-	cout << "*******Smartphone feature********" << endl;
-	cout << "Id: " << this->smartphone_id << endl;
-	cout << "Name: " << this->smartphone_name << endl;
-	cout << "Brand: " << this->brand << endl;
-	cout << "Price: " << this->price << endl;
-	cout << "Quantity: " << this->qty << endl;
-	cout << "Sold: " << this->qty_sold << endl;
-	cout << "RAM: " << this->RAM << endl;
-	cout << "ROM: " << this->ROM << endl;
-	cout << "Battery: " << this->battery << endl;
-	cout << "Screen: " << this->screen << endl;
-	cout << "Color: " << this->color << endl;
-	cout << "Cameras: " << this->cameras << endl;
-	cout << "Warranty: " << this->warranty << endl;
-	cout << "Others: " << this->others << endl;
-}
-void smartphone::scan()
-{
-	cout << "*******Enter smartphone feature********"<<endl;
-	cout << "Id: ";cin>> this->smartphone_id ;
-	cin.ignore();
-	cout << "Name: "; getline(cin,this->smartphone_name) ;
-	cout << "Brand: "; getline(cin,this->brand) ;
-	cout << "Price: ";cin>> this->price ;
-	cout << "Qantity: "; cin >> this->qty;
-	cout << "Sold: ";cin>> this->qty_sold;
-	cout << "RAM: ";cin>> this->RAM;
-	cout << "ROM: ";  cin >> this->ROM;
-	cout << "Battery: ";cin>> this->battery;
-	cout << "Screen: ";cin>> this->screen;
-	cin.ignore();
-	cout << "Color: "; getline(cin,this->color) ;
-	cout << "Cameras: ";cin>> this->cameras ;
-	cin.ignore();
-	cout << "Warranty: "; getline(cin,this->warranty) ;
-	cout << "Others: "; getline( cin,this->others);
-}
 
-void smartphone::update()
-{
-	cout << "******Enter smartphone feature*******" << endl;
-	cout << "Name: "; getline(cin, this->smartphone_name);
-	cout << "Brand: "; getline(cin, this->brand);
-	cout << "Price: "; cin >> this->price;
-	cout << "Qantity: "; cin >> this->qty;
-	cout << "Sold: "; cin >> this->qty_sold;
-	cout << "RAM: "; cin >> this->RAM;
-	cout << "ROM: ";  cin >> this->ROM;
-	cout << "Battery: "; cin >> this->battery;
-	cout << "Screen: "; cin >> this->screen;
-	cin.ignore();
-	cout << "Color: "; getline(cin, this->color);
-	cout << "Cameras: "; cin >> this->cameras;
-	cin.ignore();
-	cout << "Warranty: "; getline(cin, this->warranty);
-	cout << "Others: "; getline(cin, this->others);
-}
 
 ostream& operator<<(ostream& o, const smartphone& s)
 {
@@ -105,12 +47,10 @@ ostream& operator<<(ostream& o, const smartphone& s)
 istream& operator>>(istream& i, smartphone& s)
 {
 	cout << "*******Enter smartphone feature********" << endl;
-	cout << "Id: "; i >> s.smartphone_id;
-	i.ignore();
 	cout << "Name: "; getline(i,s.smartphone_name);
 	cout << "Brand: "; getline(i,s.brand);
 	cout << "Price: "; i >> s.price;
-	cout << "Qantity: "; i >> s.qty;
+	cout << "Quantity: "; i >> s.qty;
 	cout << "Sold: "; i >> s.qty_sold;
 	cout << "RAM: "; i >> s.RAM;
 	cout << "ROM: ";  i >> s.ROM;

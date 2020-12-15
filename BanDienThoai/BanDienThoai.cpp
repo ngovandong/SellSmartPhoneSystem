@@ -1,11 +1,11 @@
 #pragma once
 #include <iostream>
 #include "DBHelper.h"
+#include "LIST.h"
 using namespace std;
 int main()
 {
-    vector<invoice_detail> S;
-    DBHelper d;
-    d.Select(S);
+	LIST::getInstance()->updateSmartphone();
+	system("pause");
 }
 

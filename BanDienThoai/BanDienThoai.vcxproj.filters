@@ -33,6 +33,9 @@
     <ClCompile Include="invoice_detail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LIST.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DBHelper.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="invoice_detail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LIST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

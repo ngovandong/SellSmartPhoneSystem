@@ -19,16 +19,17 @@ class DBHelper
 	SQLHANDLE sqlStmtHandle;
 	SQLHANDLE sqlEnvHandle;
 	SQLWCHAR retconstring[SQL_RETURN_CODE_LEN];
-
+	DBHelper();
+	~DBHelper();
+	static DBHelper* instance;
 public:
+	static DBHelper* getInstance();
 	void init();
-	void Insert();
-	void Select(vector<smartphone>);
-	void Select(vector<invoice>);
-	void Select(vector<customer>);
-	void Select(vector<invoice_detail>);
-	void Update();
-	void Delete();
+	void Select(vector<smartphone>&);
+	void Select(vector<invoice>&);
+	void Select(vector<customer>&);
+	void Select(vector<invoice_detail>&);
+	void UDI(string); // update delete insert
 	void close();
 };
 

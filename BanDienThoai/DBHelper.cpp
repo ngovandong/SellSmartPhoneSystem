@@ -4,6 +4,20 @@
 #include<conio.h>
 #include<string.h>
 using namespace std;
+
+DBHelper* DBHelper::instance = 0;
+DBHelper::DBHelper()
+{
+}
+DBHelper::~DBHelper()
+{
+}
+DBHelper* DBHelper::getInstance()
+{
+	if (DBHelper::instance == 0)
+		DBHelper::instance = new DBHelper();
+	return DBHelper::instance;
+}
 void DBHelper::init()
 {
 	//initializations
@@ -20,8 +34,8 @@ void DBHelper::init()
 		close();
 
 	//output
-	cout << "Attempting connection to SQL Server...";
-	cout << "\n";
+	//cout << "Attempting connection to SQL Server...";
+	//cout << "\n";
 	switch (SQLDriverConnect(sqlConnHandle, NULL,(SQLWCHAR*)L"DRIVER={SQL Server};SERVER=localhost, 1433;DATABASE=vandong;trusted = true;",
 		
 		SQL_NTS,
@@ -31,13 +45,13 @@ void DBHelper::init()
 		SQL_DRIVER_NOPROMPT)) {
 
 	case SQL_SUCCESS:
-		cout << "Successfully connected to SQL Server";
-		cout << "\n";
+		//cout << "Successfully connected to SQL Server";
+		//cout << "\n";
 		break;
 
 	case SQL_SUCCESS_WITH_INFO:
-		cout << "Successfully connected to SQL Server";
-		cout << "\n";
+		//cout << "Successfully connected to SQL Server";
+		//cout << "\n";
 		break;
 
 	case SQL_INVALID_HANDLE:
@@ -61,42 +75,8 @@ void DBHelper::init()
 }
 
 
-void DBHelper::Insert()
+void DBHelper::Select(vector<smartphone> &S)
 {
-	
-	/*string s = "INSERT INTO Student VALUES('102180111',";
-	string s1 = "'Quan',";
-	string s2 = "'6')";
-
-	s = s + s1 + s2;*/
-	//int M = 50;
-
-	/*char m[50];
-	for (int i = 0; i < 50; i++)
-	{
-		m[i] = s[i];
-		cout << m[i];
-	}*/
-	//cout << m;
-	char m[] = "INSERT INTO Student VALUES('102180116','Quan','9')";
-
-	if (SQL_SUCCESS != SQLExecDirectA(sqlStmtHandle,(SQLCHAR*)m , SQL_NTS)) {
-
-		cout << "\n";
-		cout << "Error querying SQL Server";
-		cout << "\n";
-		close();
-	}
-	else {
-
-		cout << "\nINSERT SUCCESS";
-		return;
-	}
-}
-
-void DBHelper::Select(vector<smartphone> S)
-{
-	init();
 	//if there is a problem executing the query then exit application
 	//else display query result
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM SMARTPHONE where deleted= 0 ", SQL_NTS)) {
@@ -108,8 +88,8 @@ void DBHelper::Select(vector<smartphone> S)
 		//declare output variable and pointer
 		SQLINTEGER ptrSqlVersion;
 		int smartphone_id;
-		char smartphone_name[50];
-		char brand[20];
+		char smartphone_name[51];
+		char brand[21];
 		int	price;
 		int qty;
 		int qty_sold;
@@ -117,12 +97,13 @@ void DBHelper::Select(vector<smartphone> S)
 		int ROM;
 		int battery;
 		float screen;
-		char color[20];
+		char color[21];
 		int cameras;
-		char warranty[20];
-		char others[100];
+		char warranty[21];
+		char others[101];
 		int i = 0;
 		while (SQLFetch(sqlStmtHandle) == SQL_SUCCESS) {
+
 			SQLGetData(sqlStmtHandle, 1, SQL_INTEGER, &smartphone_id, 1, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 2, SQL_CHAR, smartphone_name, SQL_RESULT_LEN, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 3, SQL_CHAR, brand, SQL_RESULT_LEN, &ptrSqlVersion);
@@ -132,27 +113,23 @@ void DBHelper::Select(vector<smartphone> S)
 			SQLGetData(sqlStmtHandle, 7, SQL_INTEGER, &RAM, 1, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 8, SQL_INTEGER, &ROM, 1, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 9, SQL_INTEGER, &battery, 1, &ptrSqlVersion);
-			SQLGetData(sqlStmtHandle, 10, SQL_C_FLOAT, &screen, 1, &ptrSqlVersion);
+			SQLGetData(sqlStmtHandle, 10, SQL_FLOAT, &screen, 1, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 11, SQL_CHAR, color, SQL_RESULT_LEN, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 12, SQL_INTEGER, &cameras, 1, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 13, SQL_CHAR, warranty, SQL_RESULT_LEN, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 14, SQL_CHAR, others, SQL_RESULT_LEN, &ptrSqlVersion);
 
-
 			//display query result
 			smartphone* Sm = new smartphone(smartphone_id, smartphone_name, brand, price,
 				qty, qty_sold, RAM, ROM, battery, screen, color, cameras, warranty, others);
 			S.push_back(*Sm);
-			cout << S[i];
 			i++;
 		}
 	}
 	SQLCancel(sqlStmtHandle);
-	close();
 }
 
-void DBHelper::Select(vector<customer> S) {
-	init();
+void DBHelper::Select(vector<customer> &S) {
 	//if there is a problem executing the query then exit application
 	//else display query result
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM CUSTOMER", SQL_NTS)) {
@@ -165,7 +142,7 @@ void DBHelper::Select(vector<customer> S) {
 		SQLINTEGER ptrSqlVersion;
 		int customer_id;
 		char customer_name[30];
-		char phonenumber[20];
+		char phonenumber[21];
 		char address[60];
 		int i = 0;
 		while (SQLFetch(sqlStmtHandle) == SQL_SUCCESS) {
@@ -176,16 +153,13 @@ void DBHelper::Select(vector<customer> S) {
 			//display query result
 			customer* Sm = new customer(customer_id, customer_name, phonenumber, address);
 			S.push_back(*Sm);
-			cout << S[i];
 			i++;
 		}
 	}
 	SQLCancel(sqlStmtHandle);
-	close();
 }
 
-void DBHelper::Select(vector<invoice> S) {
-	init();
+void DBHelper::Select(vector<invoice> &S) {
 	//if there is a problem executing the query then exit application
 	//else display query result
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM INVOICE", SQL_NTS)) {
@@ -211,16 +185,14 @@ void DBHelper::Select(vector<invoice> S) {
 			//display query result
 			invoice* Sm = new invoice(invoice_id, customer_id, datebuy, total);
 			S.push_back(*Sm);
-			cout << S[i];
+			delete Sm;
 			i++;
 		}
 	}
 	SQLCancel(sqlStmtHandle);
-	close();
 }
 
-void DBHelper::Select(vector<invoice_detail> S) {
-	init();
+void DBHelper::Select(vector<invoice_detail> &S) {
 	//if there is a problem executing the query then exit application
 	//else display query result
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM INVOICE_DETAIL", SQL_NTS)) {
@@ -246,50 +218,38 @@ void DBHelper::Select(vector<invoice_detail> S) {
 			//display query result
 			invoice_detail* Sm = new invoice_detail(invoice_id, smartphone_id, qty, unit_price);
 			S.push_back(*Sm);
-			cout << S[i];
 			i++;
 		}
 	}
 	SQLCancel(sqlStmtHandle);
+}
+
+void DBHelper::UDI(string s)
+{
+	init();
+	char* m = new char[s.length()];
+	strcpy_s(m, s.length() + 1, s.c_str());
+	if (SQL_SUCCESS != SQLExecDirectA(sqlStmtHandle, (SQLCHAR*)m, SQL_NTS)) {
+		cout << "\n";
+		cout << "Error querying SQL Server";
+		cout << "\n";
+		close();
+	}
+	else {
+
+		cout << "\nSUCCESS!\n";
+		return;
+	}
 	close();
 }
 
-void DBHelper::Update()
-{
-	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"UPDATE Student SET Id = '102180100' where Id = '102180137'", SQL_NTS)) {
-		cout << "\n";
-		cout << "Error querying SQL Server";
-		cout << "\n";
-		close();
-	}
-	else {
 
-		cout << "\nUPDATE SUCCESS";
-		return;
-	}
-}
-void DBHelper::Delete()
-{
-	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"DELETE from Student where Id = '102180138'", SQL_NTS)) {
-		cout << "\n";
-		cout << "Error querying SQL Server";
-		cout << "\n";
-		close();
-	}
-	else {
-
-		cout << "\nDELETE SUCCESS";
-		return;
-	}
-}
 void DBHelper::close()
 {
 	SQLFreeHandle(SQL_HANDLE_STMT, sqlStmtHandle);
 	SQLDisconnect(sqlConnHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, sqlConnHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, sqlEnvHandle);
-	system("pause");
-	exit(0);
 }
 
 //SQLCHAR							SalesPerson[11];

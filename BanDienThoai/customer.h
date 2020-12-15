@@ -12,5 +12,6 @@ public:
 	customer(int =0, string="",string="", string="");
 	~customer();
 	friend ostream& operator<<(ostream&, const customer&);
+	friend istream& operator>>(istream&, customer&);
 };
 

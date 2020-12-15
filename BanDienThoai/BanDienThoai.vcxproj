@@ -144,6 +144,7 @@
     <ClCompile Include="DBHelper.cpp" />
     <ClCompile Include="invoice.cpp" />
     <ClCompile Include="invoice_detail.cpp" />
+    <ClCompile Include="LIST.cpp" />
     <ClCompile Include="smartphone.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
     <ClInclude Include="DBHelper.h" />
     <ClInclude Include="invoice.h" />
     <ClInclude Include="invoice_detail.h" />
+    <ClInclude Include="LIST.h" />
     <ClInclude Include="smartphone.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
