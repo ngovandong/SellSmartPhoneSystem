@@ -1,6 +1,7 @@
 #pragma once
 #include "DBHelper.h"
 #include <vector>
+#include <string>
 class LIST
 {
 	vector<smartphone> SM;
@@ -16,4 +17,8 @@ public:
 	void addSmartphone();
 	void DeleteSmartphone();
 	void updateSmartphone();
+	void searchSmartphone(string);
+	void displayInvoice();
+	void buy();
 };
+

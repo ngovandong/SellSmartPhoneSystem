@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-	LIST::getInstance()->displaySmartphone();
+	LIST::getInstance()->displayInvoice();
 	system("pause");
 }
 

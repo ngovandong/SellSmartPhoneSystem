@@ -10,7 +10,7 @@ customer::~customer()
 
 ostream& operator<<(ostream& o, const customer& c)
 {
-	o << "Customer_id: " << c.customer_id << endl;
+	//o << "Customer_id: " << c.customer_id << endl;
 	o << "Customer name: " << c.customer_name << endl;
 	o << "Phonenumber: " << c.phonenumber << endl;
 	o << "Address: " << c.address << endl;

@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
 #include <iostream>
+
 using namespace std;
+
 class customer
 {
 	int customer_id;
@@ -13,5 +15,6 @@ public:
 	~customer();
 	friend ostream& operator<<(ostream&, const customer&);
 	friend istream& operator>>(istream&, customer&);
+	friend class LIST;
 };
 

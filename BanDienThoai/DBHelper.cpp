@@ -77,6 +77,7 @@ void DBHelper::init()
 
 void DBHelper::Select(vector<smartphone> &S)
 {
+	init();
 	//if there is a problem executing the query then exit application
 	//else display query result
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM SMARTPHONE where deleted= 0 ", SQL_NTS)) {
@@ -127,11 +128,13 @@ void DBHelper::Select(vector<smartphone> &S)
 		}
 	}
 	SQLCancel(sqlStmtHandle);
+	close();
 }
 
 void DBHelper::Select(vector<customer> &S) {
 	//if there is a problem executing the query then exit application
 	//else display query result
+	init();
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM CUSTOMER", SQL_NTS)) {
 		cout << "Error querying SQL Server";
 		cout << "\n";
@@ -157,11 +160,13 @@ void DBHelper::Select(vector<customer> &S) {
 		}
 	}
 	SQLCancel(sqlStmtHandle);
+	close();
 }
 
 void DBHelper::Select(vector<invoice> &S) {
 	//if there is a problem executing the query then exit application
 	//else display query result
+	init();
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM INVOICE", SQL_NTS)) {
 		cout << "Error querying SQL Server";
 		cout << "\n";
@@ -190,11 +195,13 @@ void DBHelper::Select(vector<invoice> &S) {
 		}
 	}
 	SQLCancel(sqlStmtHandle);
+	close();
 }
 
 void DBHelper::Select(vector<invoice_detail> &S) {
 	//if there is a problem executing the query then exit application
 	//else display query result
+	init();
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM INVOICE_DETAIL", SQL_NTS)) {
 		cout << "Error querying SQL Server";
 		cout << "\n";
@@ -222,6 +229,7 @@ void DBHelper::Select(vector<invoice_detail> &S) {
 		}
 	}
 	SQLCancel(sqlStmtHandle);
+	close();
 }
 
 void DBHelper::UDI(string s)
