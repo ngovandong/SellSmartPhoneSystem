@@ -3,9 +3,11 @@
 #include "DBHelper.h"
 #include "LIST.h"
 using namespace std;
+
+
 int main()
 {
-	LIST::getInstance()->updateSmartphone();
+	LIST::getInstance()->displaySmartphone();
 	system("pause");
 }
 

@@ -113,7 +113,7 @@ void DBHelper::Select(vector<smartphone> &S)
 			SQLGetData(sqlStmtHandle, 7, SQL_INTEGER, &RAM, 1, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 8, SQL_INTEGER, &ROM, 1, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 9, SQL_INTEGER, &battery, 1, &ptrSqlVersion);
-			SQLGetData(sqlStmtHandle, 10, SQL_FLOAT, &screen, 1, &ptrSqlVersion);
+			SQLGetData(sqlStmtHandle, 10, SQL_C_FLOAT, &screen, 1, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 11, SQL_CHAR, color, SQL_RESULT_LEN, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 12, SQL_INTEGER, &cameras, 1, &ptrSqlVersion);
 			SQLGetData(sqlStmtHandle, 13, SQL_CHAR, warranty, SQL_RESULT_LEN, &ptrSqlVersion);

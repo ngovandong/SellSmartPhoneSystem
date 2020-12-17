@@ -23,6 +23,21 @@ smartphone::~smartphone() {
 
 }
 
+int smartphone::getPrice()
+{
+	return this->price;
+}
+
+int smartphone::getSold()
+{
+	return this->qty_sold;
+}
+
+int smartphone::getID()
+{
+	return this->smartphone_id;
+}
+
 
 ostream& operator<<(ostream& o, const smartphone& s)
 {
@@ -64,3 +79,4 @@ istream& operator>>(istream& i, smartphone& s)
 	cout << "Others: "; getline(i,s.others);
 	return i;
 }
+

@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <iostream>
-
 using namespace std;
 class smartphone
 {
@@ -26,5 +25,7 @@ public:
 	friend ostream& operator<<(ostream&, const smartphone&);
 	friend istream& operator>>(istream&, smartphone&);
 	friend class LIST;
+	int getPrice();
+	int getSold();
+	int getID();
 };
-

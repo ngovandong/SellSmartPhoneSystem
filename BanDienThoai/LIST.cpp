@@ -1,5 +1,43 @@
 #include "LIST.h"
 
+bool increase(int a, int b) {
+	return a < b;
+}
+bool decrease(int a, int b) {
+	return a > b;
+}
+int orderBySold(smartphone S) {
+	return S.getSold();
+}
+int orderByPrice(smartphone S) {
+	return S.getPrice();
+}
+int orderByID(smartphone S) {
+	return S.getID();
+}
+
+void quicksort(vector<smartphone>& S, bool (*cmp)(int, int), int(*val)(smartphone), int L, int R)
+{
+	int pivot = val(S[L]);
+	int i = L;
+	int j = R;
+	while (i <= j) {
+		while (cmp(val(S[i]), pivot)) i++;
+		while (cmp(pivot, val(S[j]))) j--;
+		if (i <= j) {
+			if (i < j)
+				swap(S[i], S[j]);
+			i++;
+			j--;
+		}
+	}
+	if (L < j)
+		quicksort(S, cmp, val, L, j);
+	if (R > i)
+		quicksort(S, cmp, val, i, R);
+}
+
+
 LIST* LIST::instance = 0;
 LIST::LIST()
 {
@@ -20,6 +58,7 @@ LIST::~LIST()
 }
 
 
+
 LIST* LIST::getInstance()
 {
 	if (LIST::instance == 0)
@@ -29,6 +68,7 @@ LIST* LIST::getInstance()
 
 void LIST::displaySmartphone()
 {
+	quicksort(this->SM, decrease, orderByID, 0, this->SM.size() - 1); 
 	for (int i = 0; i < this->SM.size(); i++)
 		cout << this->SM[i];
 }
@@ -70,3 +110,11 @@ void LIST::updateSmartphone()
 		+ "' where smartphone_id= " + to_string(id);
 	DBHelper::getInstance()->UDI(s);
 }
+
+
+
+
+
+
+
+

@@ -16,6 +16,4 @@ public:
 	void addSmartphone();
 	void DeleteSmartphone();
 	void updateSmartphone();
-	
 };
-
