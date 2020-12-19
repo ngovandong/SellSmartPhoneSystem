@@ -20,5 +20,6 @@ public:
 	void searchSmartphone(string);
 	void displayInvoice();
 	void buy();
+	void consult();
 };
 

@@ -154,6 +154,8 @@ void LIST::displayInvoice()
 	}
 }
 
+
+
 void LIST::buy()
 {
 	string name, address, phone;
@@ -189,6 +191,61 @@ void LIST::buy()
 	DBHelper::getInstance()->UDI(s2);
 	this->DE.clear();
 	DBHelper::getInstance()->Select(this->DE);
+}
+
+void quicksort(vector<smartphone>& S, int* rank, int L, int R)
+{
+	int pivot = rank[L];
+	int i = L;
+	int j = R;
+	while (i <= j) {
+		while (rank[i] > pivot) i++;
+		while (rank[j] < pivot) j--;
+		if (i <= j) {
+			if (i < j) {
+				swap(S[i], S[j]);
+				swap(rank[i], rank[j]);
+			}
+			i++;
+			j--;
+		}
+	}
+	if (L < j)
+		quicksort(S, rank, L, j);
+	if (R > i)
+		quicksort(S, rank, i, R);
+}
+
+void LIST::consult()
+{
+	string brand, color;
+	int priceLow, priceUp, rom, ram, battery,cameras;
+	float  screenLow, screenUp;
+	cout << "Enter your need: " << endl;
+	cout << "Band: "; getline(cin, brand);
+	cout << "Price >=: "; cin >> priceLow;
+	cout << "Price <=: "; cin >> priceUp;
+	cout << "ROM: "; cin >> rom;
+	cout << "RAM: "; cin >> ram;
+	cout << "Battery >=: "; cin >> battery;
+	cout << "Screen >=: "; cin>>screenLow;
+	cout << "Screen <=: "; cin>>screenUp;
+	cout << "Cameras: "; cin >> cameras;
+	int n = this->SM.size();
+	int* rank = new int[n];
+	for (int i = 0; i < n; i++) {
+		rank[i] = 0;
+		if (brand.compare(this->SM[i].brand)==0) rank[i]++;
+		if (priceLow <= this->SM[i].price&&this->SM[i].price<=priceUp) rank[i]++;
+		if (rom == this->SM[i].ROM) rank[i] ++;
+		if (ram == this->SM[i].RAM) rank[i] ++;
+		if (this->SM[i].battery >= battery) rank[i]++;
+		if (screenLow <= this->SM[i].price && this->SM[i].price <= screenUp) rank[i]++;
+		if (cameras == this->SM[i].cameras) rank[i] ++;
+	}
+	quicksort(this->SM, rank, 0, n - 1);
+	for (int i = 0; i < 5; i++)
+		cout << this->SM[i];
 }
 
 

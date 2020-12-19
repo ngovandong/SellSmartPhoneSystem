@@ -4,10 +4,8 @@
 #include "LIST.h"
 using namespace std;
 
-
 int main()
 {
-	LIST::getInstance()->displayInvoice();
+	LIST::getInstance()->consult();
 	system("pause");
 }
-
