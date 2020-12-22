@@ -1,11 +1,10 @@
 #pragma once
 #include <iostream>
-#include "DBHelper.h"
-#include "LIST.h"
+#include "UI.h"
 using namespace std;
 
 int main()
 {
-	LIST::getInstance()->consult();
+	UI::getInstance()->perform();
 	system("pause");
 }

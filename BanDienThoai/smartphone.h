@@ -28,4 +28,6 @@ public:
 	int getPrice();
 	int getSold();
 	int getID();
+	string getName();
+	string getBrand();
 };

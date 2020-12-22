@@ -1,41 +1,5 @@
 #include "LIST.h"
 #include <algorithm>
-bool increase(int a, int b) {
-	return a < b;
-}
-bool decrease(int a, int b) {
-	return a > b;
-}
-int orderBySold(smartphone S) {
-	return S.getSold();
-}
-int orderByPrice(smartphone S) {
-	return S.getPrice();
-}
-int orderByID(smartphone S) {
-	return S.getID();
-}
-
-void quicksort(vector<smartphone>& S, bool (*cmp)(int, int), int(*val)(smartphone), int L, int R)
-{
-	int pivot = val(S[L]);
-	int i = L;
-	int j = R;
-	while (i <= j) {
-		while (cmp(val(S[i]), pivot)) i++;
-		while (cmp(pivot, val(S[j]))) j--;
-		if (i <= j) {
-			if (i < j)
-				swap(S[i], S[j]);
-			i++;
-			j--;
-		}
-	}
-	if (L < j)
-		quicksort(S, cmp, val, L, j);
-	if (R > i)
-		quicksort(S, cmp, val, i, R);
-}
 
 
 LIST* LIST::instance = 0;
@@ -55,8 +19,6 @@ LIST::~LIST()
 	this->DE.clear();
 }
 
-
-
 LIST* LIST::getInstance()
 {
 	if (LIST::instance == 0)
@@ -64,11 +26,14 @@ LIST* LIST::getInstance()
 	return LIST::instance;
 }
 
-void LIST::displaySmartphone()
+
+
+void LIST::displaySmartphone(bool (*cmp)(int, int), int(*val)(smartphone))
 {
-	quicksort(this->SM, increase, orderByID, 0, this->SM.size() - 1); 
-	for (int i = 0; i < this->SM.size(); i++)
+	quicksort(this->SM, cmp, val, 0, this->SM.size() - 1); 
+	for (int i = 0; i < this->SM.size(); i++) {
 		cout << this->SM[i];
+	}
 }
 
 void LIST::addSmartphone()
@@ -115,15 +80,60 @@ void LIST::updateSmartphone()
 	DBHelper::getInstance()->Select(this->SM);
 }
 
-void LIST::searchSmartphone(string str)
+
+void LIST::searchSmartphone(string(*val)(smartphone), string str)
 {
 	transform(str.begin(), str.end(), str.begin(), ::tolower);
 	for (int i = 0; i < this->SM.size(); i++) {
-		string temp = this->SM[i].smartphone_name;
+		string temp = val(this->SM[i]);
 		transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
 		size_t found = temp.find(str);
 		if (found != string::npos)
 			cout << this->SM[i];
+	}
+}
+
+
+customer* LIST::getCustomer(int ID)
+{
+	for (int i = 0; i < this->CUS.size(); i++)
+		if (this->CUS[i].customer_id == ID)
+			return &this->CUS[i];
+	return nullptr;
+}
+
+smartphone* LIST::getSmartphone(int ID)
+{
+	for (int i = 0; i < this->SM.size(); i++)
+		if (this->SM[i].smartphone_id == ID)
+			return &this->SM[i];
+	return nullptr;
+}
+
+vector<invoice_detail*> LIST::getInvoiceDetail(int ID)
+{
+	vector<invoice_detail*> D;
+	for (int i = 0; i < this->DE.size(); i++)
+		if (this->DE[i].invoice_id == ID)
+			D.push_back( &this->DE[i]);
+	return D;
+}
+
+void LIST::hoadon()
+{
+	cout << "~~~~~~~~~~~~~~ALL INVOICE~~~~~~~~~~~~~" << endl << endl;
+	for (int i = 0; i < this->INV.size(); i++) {
+		cout << this->INV[i];
+		cout << "~Bill to:" << endl;
+		cout <<* this->getCustomer(this->INV[i].customer_id);
+		cout << "~Detail: " << endl;
+		vector<invoice_detail*> D = this->getInvoiceDetail(this->INV[i].invoice_id);
+		for (int j = 0; j < D.size(); j++) {
+			cout << "Name: " << this->getSmartphone(D[j]->smartphone_id)->smartphone_name << endl;
+			cout << "Quantity: " << D[j]->qty<<endl;
+			cout << "Unit price: " << D[j]->unit_price << endl;
+		}
+		cout << "************************************" << endl;
 	}
 }
 
@@ -160,7 +170,9 @@ void LIST::buy()
 {
 	string name, address, phone;
 	cout << "Enter your infomaton: " << endl;
-	cout << "Name: "; getline(cin, name);
+	cout << "Name: "; 
+	cin.ignore();
+	getline(cin, name);
 	cout << "Phone: "; getline(cin, phone);
 	cout << "Address: "; getline(cin, address);
 	string s = "INSERT INTO CUSTOMER(customer_name,phonenumber,address) values('";
@@ -171,9 +183,12 @@ void LIST::buy()
 	string s1 = "INSERT INTO INVOICE(date_buy,customer_id) values(getdate(),";
 	s1 = s1 + to_string(this->CUS[this->CUS.size()-1].customer_id) + ")";
 	DBHelper::getInstance()->UDI(s1);
+	system("cls");
 	this->INV.clear();
 	DBHelper::getInstance()->Select(this->INV);
-	this->displaySmartphone();
+	for (int i = 0; i < this->SM.size(); i++) {
+		cout << this->SM[i];
+	}
 	string s2 = "  exec  procupdatedata ";
 	int smartphone_id, qty;
 	while (true) {
@@ -181,11 +196,11 @@ void LIST::buy()
 		cin >> smartphone_id;
 		cout << "Quantity: ";
 		cin >> qty;
-		int k = 1;
+		int k ;
 		s2 = s2 + to_string(this->INV[this->INV.size()-1].invoice_id) + ", " + to_string(smartphone_id) + ", " + to_string(qty);
-		cout << "Continue buy ? (if continue press 1, if stop press 0): ";
+		cout << "Continue buy ? (if continue press 1, if finish press 0): ";
 		cin >> k;
-		if (!k) break;
+		if (k==0) break;
 		s2 += "  exec  procupdatedata ";
 	}
 	DBHelper::getInstance()->UDI(s2);
@@ -193,28 +208,6 @@ void LIST::buy()
 	DBHelper::getInstance()->Select(this->DE);
 }
 
-void quicksort(vector<smartphone>& S, int* rank, int L, int R)
-{
-	int pivot = rank[L];
-	int i = L;
-	int j = R;
-	while (i <= j) {
-		while (rank[i] > pivot) i++;
-		while (rank[j] < pivot) j--;
-		if (i <= j) {
-			if (i < j) {
-				swap(S[i], S[j]);
-				swap(rank[i], rank[j]);
-			}
-			i++;
-			j--;
-		}
-	}
-	if (L < j)
-		quicksort(S, rank, L, j);
-	if (R > i)
-		quicksort(S, rank, i, R);
-}
 
 void LIST::consult()
 {
@@ -222,7 +215,9 @@ void LIST::consult()
 	int priceLow, priceUp, rom, ram, battery,cameras;
 	float  screenLow, screenUp;
 	cout << "Enter your need: " << endl;
-	cout << "Band: "; getline(cin, brand);
+	cout << "Band: "; 
+	cin.ignore();
+	getline(cin, brand);
 	cout << "Price >=: "; cin >> priceLow;
 	cout << "Price <=: "; cin >> priceUp;
 	cout << "ROM: "; cin >> rom;
@@ -235,8 +230,8 @@ void LIST::consult()
 	int* rank = new int[n];
 	for (int i = 0; i < n; i++) {
 		rank[i] = 0;
-		if (brand.compare(this->SM[i].brand)==0) rank[i]++;
-		if (priceLow <= this->SM[i].price&&this->SM[i].price<=priceUp) rank[i]++;
+		if (brand.compare(this->SM[i].brand)==0) rank[i]+=4;
+		if (priceLow <= this->SM[i].price&&this->SM[i].price<=priceUp) rank[i]+=4;
 		if (rom == this->SM[i].ROM) rank[i] ++;
 		if (ram == this->SM[i].RAM) rank[i] ++;
 		if (this->SM[i].battery >= battery) rank[i]++;

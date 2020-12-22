@@ -38,6 +38,16 @@ int smartphone::getID()
 	return this->smartphone_id;
 }
 
+string smartphone::getName()
+{
+	return this->smartphone_name;
+}
+
+string smartphone::getBrand()
+{
+	return this->brand;
+}
+
 
 ostream& operator<<(ostream& o, const smartphone& s)
 {
@@ -62,7 +72,9 @@ ostream& operator<<(ostream& o, const smartphone& s)
 istream& operator>>(istream& i, smartphone& s)
 {
 	cout << "*******Enter smartphone feature********" << endl;
-	cout << "Name: "; getline(i,s.smartphone_name);
+	cout << "Name: "; 
+	cin.ignore();
+	getline(i, s.smartphone_name);
 	cout << "Brand: "; getline(i,s.brand);
 	cout << "Price: "; i >> s.price;
 	cout << "Quantity: "; i >> s.qty;

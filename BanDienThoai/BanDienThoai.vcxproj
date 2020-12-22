@@ -142,6 +142,7 @@
     <ClCompile Include="BanDienThoai.cpp" />
     <ClCompile Include="customer.cpp" />
     <ClCompile Include="DBHelper.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="invoice.cpp" />
     <ClCompile Include="invoice_detail.cpp" />
     <ClCompile Include="LIST.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="customer.h" />
     <ClInclude Include="DBHelper.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="invoice.h" />
     <ClInclude Include="invoice_detail.h" />
     <ClInclude Include="LIST.h" />
