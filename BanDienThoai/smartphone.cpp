@@ -1,5 +1,4 @@
 #include "smartphone.h"
-#include <iostream>
 using namespace std;
 
 smartphone::smartphone(int id, string name, string brand, int price, int qty, int qty_sold, int ram
@@ -51,21 +50,36 @@ string smartphone::getBrand()
 
 ostream& operator<<(ostream& o, const smartphone& s)
 {
-	o << "*******Smartphone feature********" << endl;
-	o << "Id: " << s.smartphone_id << endl;
-	o << "Name: " << s.smartphone_name << endl;
-	o << "Brand: " << s.brand << endl;
-	o << "Price: " << s.price << endl;
-	o << "Quantity: " << s.qty << endl;
-	o << "Sold: " << s.qty_sold << endl;
-	o << "RAM: " << s.RAM << endl;
-	o << "ROM: " << s.ROM << endl;
-	o << "Battery: " <<s.battery << endl;
-	o << "Screen: " << s.screen << endl;
-	o << "Color: " << s.color << endl;
-	o << "Cameras: " << s.cameras << endl;
-	o << "Warranty: " << s.warranty << endl;
-	o << "Others: " << s.others << endl;
+	o << "\n\nSmartphone feature" << endl;
+	o << "____________________________________________"<<endl;
+	o << setw(-10)<< "Id: " << s.smartphone_id << endl;
+	o << "____________________________________________|"<<endl;
+	o << setw(-10) << "Name: " << s.smartphone_name << endl;
+	o << "____________________________________________|"<<endl;
+	o << setw(-10) << "Brand: " << s.brand << endl;
+	o << "____________________________________________|"<<endl;
+	o << setw(-10) << "Price: " << s.price << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "Quantity: " << s.qty << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "Sold: " << s.qty_sold << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "RAM: " << s.RAM << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "ROM: " << s.ROM << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "Battery: " <<s.battery << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "Screen: " << s.screen << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "Color: " << s.color << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "Cameras: " << s.cameras << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "Warranty: " << s.warranty << endl;
+	o << "____________________________________________|" << endl;
+	o << setw(-10) << "Others: " << s.others << endl;
+	o << "____________________________________________|" << endl<<endl;
 	return o;
 }
 

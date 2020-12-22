@@ -5,18 +5,26 @@
 LIST* LIST::instance = 0;
 LIST::LIST()
 {
+	vector<customer> CUS;
+	vector<invoice_detail> DE;
 	DBHelper::getInstance()->Select(this->SM);
-	DBHelper::getInstance()->Select(this->CUS);
+	DBHelper::getInstance()->Select(DE);
+	DBHelper::getInstance()->Select(CUS);
 	DBHelper::getInstance()->Select(this->INV);
-	DBHelper::getInstance()->Select(this->DE);
+	for (int i = 0; i < DE.size(); i++)
+		DE[i].setSmartphone(this->SM);
+	for (int i = 0; i < this->INV.size(); i++) {
+		this->INV[i].setCustomer(CUS);
+		this->INV[i].setInvoiceDetail(DE);
+	}
+	CUS.clear();
+	DE.clear();
 }
 
 LIST::~LIST()
 {
 	this->SM.clear();
-	this->CUS.clear();
 	this->INV.clear();
-	this->DE.clear();
 }
 
 LIST* LIST::getInstance()
@@ -93,74 +101,11 @@ void LIST::searchSmartphone(string(*val)(smartphone), string str)
 	}
 }
 
-
-customer* LIST::getCustomer(int ID)
-{
-	for (int i = 0; i < this->CUS.size(); i++)
-		if (this->CUS[i].customer_id == ID)
-			return &this->CUS[i];
-	return nullptr;
-}
-
-smartphone* LIST::getSmartphone(int ID)
-{
-	for (int i = 0; i < this->SM.size(); i++)
-		if (this->SM[i].smartphone_id == ID)
-			return &this->SM[i];
-	return nullptr;
-}
-
-vector<invoice_detail*> LIST::getInvoiceDetail(int ID)
-{
-	vector<invoice_detail*> D;
-	for (int i = 0; i < this->DE.size(); i++)
-		if (this->DE[i].invoice_id == ID)
-			D.push_back( &this->DE[i]);
-	return D;
-}
-
-void LIST::hoadon()
-{
-	cout << "~~~~~~~~~~~~~~ALL INVOICE~~~~~~~~~~~~~" << endl << endl;
-	for (int i = 0; i < this->INV.size(); i++) {
-		cout << this->INV[i];
-		cout << "~Bill to:" << endl;
-		cout <<* this->getCustomer(this->INV[i].customer_id);
-		cout << "~Detail: " << endl;
-		vector<invoice_detail*> D = this->getInvoiceDetail(this->INV[i].invoice_id);
-		for (int j = 0; j < D.size(); j++) {
-			cout << "Name: " << this->getSmartphone(D[j]->smartphone_id)->smartphone_name << endl;
-			cout << "Quantity: " << D[j]->qty<<endl;
-			cout << "Unit price: " << D[j]->unit_price << endl;
-		}
-		cout << "************************************" << endl;
-	}
-}
-
 void LIST::displayInvoice()
 {
 	cout << "~~~~~~~~~~~~~~ALL INVOICE~~~~~~~~~~~~~"<< endl<<endl;
 	for (int i = 0; i < this->INV.size(); i++) {
-		cout <<"~"<< this->INV[i];
-		for (int j = 0; j < this->CUS.size(); j++) {
-			if (this->INV[i].customer_id == this->CUS[j].customer_id) {
-				cout << "~Bill to: " << endl;
-				cout << this->CUS[j];
-			}
-		}
-		cout << "~Invoice detail: " << endl;
-		for (int j = 0; j < this->DE.size(); j++) {
-			if (this->INV[i].invoice_id == this->DE[j].invoice_id) {
-				for (int k = 0; k < this->SM.size(); k++) {
-					if (this->DE[j].smartphone_id == this->SM[k].smartphone_id) {
-						cout << "Smartphone name: " << this->SM[k].smartphone_name << endl;
-						cout << "Quantity: " << this->DE[j].qty << endl;
-						cout << "Unit price: " << this->DE[j].unit_price << endl;
-					}
-				}
-			}
-		}
-		cout << "************************************" << endl;
+		cout << this->INV[i];
 	}
 }
 
@@ -178,34 +123,44 @@ void LIST::buy()
 	string s = "INSERT INTO CUSTOMER(customer_name,phonenumber,address) values('";
 	s = s + name + "','" + phone + "','" + address + "')";
 	DBHelper::getInstance()->UDI(s);
-	this->CUS.clear();
-	DBHelper::getInstance()->Select(this->CUS);
+	int customer_id = DBHelper::getInstance()->selectID("select max(customer_id) from CUSTOMER");
 	string s1 = "INSERT INTO INVOICE(date_buy,customer_id) values(getdate(),";
-	s1 = s1 + to_string(this->CUS[this->CUS.size()-1].customer_id) + ")";
+	s1 = s1 + to_string(customer_id) + ")";
 	DBHelper::getInstance()->UDI(s1);
+	int invoice_id = DBHelper::getInstance()->selectID("select max(invoice_id) from INVOICE");
 	system("cls");
-	this->INV.clear();
-	DBHelper::getInstance()->Select(this->INV);
 	for (int i = 0; i < this->SM.size(); i++) {
 		cout << this->SM[i];
 	}
-	string s2 = "  exec  procupdatedata ";
+	string s2;
 	int smartphone_id, qty;
+	vector<invoice_detail> DE;
 	while (true) {
 		cout << "\nChoose smartphone_id you need to buy: ";
 		cin >> smartphone_id;
 		cout << "Quantity: ";
 		cin >> qty;
 		int k ;
-		s2 = s2 + to_string(this->INV[this->INV.size()-1].invoice_id) + ", " + to_string(smartphone_id) + ", " + to_string(qty);
+		s2 = "exec  procupdatedata ";
+		s2 = s2 + to_string(invoice_id) + ", " + to_string(smartphone_id) + ", " + to_string(qty);
+		DBHelper::getInstance()->UDI(s2);
+		vector<invoice_detail> D;
+		DBHelper::getInstance()->Select(D);
+		DE.push_back(D.back());
+		D.clear();
+		DE.back().setSmartphone(this->SM);
 		cout << "Continue buy ? (if continue press 1, if finish press 0): ";
 		cin >> k;
 		if (k==0) break;
-		s2 += "  exec  procupdatedata ";
 	}
-	DBHelper::getInstance()->UDI(s2);
-	this->DE.clear();
-	DBHelper::getInstance()->Select(this->DE);
+	customer* c = new customer(customer_id, name, phone, address);
+	vector<invoice> I;
+	DBHelper::getInstance()->Select(I);
+	this->INV.push_back(I.back());
+	this->INV.back().setCustomer(*c);
+	this->INV.back().setInvoiceDetail(DE);
+	I.clear();
+	DE.clear();
 }
 
 

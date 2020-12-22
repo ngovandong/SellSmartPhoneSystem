@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <iomanip>
 using namespace std;
+class invoice;
 class smartphone
 {
 protected:
@@ -20,11 +22,12 @@ protected:
 	string warranty;
 	string others;
 public:
+	friend class LIST;
+	friend ostream& operator<<(ostream&, const invoice&);
 	smartphone(int=0,string= "", string = "",int=0,int=0,int=0,int=0,int=0,int=0,float=0, string = "",int=0, string = "", string = "");
 	~smartphone();
 	friend ostream& operator<<(ostream&, const smartphone&);
 	friend istream& operator>>(istream&, smartphone&);
-	friend class LIST;
 	int getPrice();
 	int getSold();
 	int getID();

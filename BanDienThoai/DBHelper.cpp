@@ -232,6 +232,29 @@ void DBHelper::Select(vector<invoice_detail> &S) {
 	close();
 }
 
+int DBHelper::selectID(string s)
+{
+	init();
+	char* m = new char[s.length()];
+	strcpy_s(m, s.length() + 1, s.c_str());
+	int id;
+	if (SQL_SUCCESS != SQLExecDirectA(sqlStmtHandle, (SQLCHAR*)m, SQL_NTS)) {
+		cout << "Error querying SQL Server";
+		cout << "\n";
+		close();
+	}
+	else {
+		//declare output variable and pointer
+		SQLINTEGER ptrSqlVersion;
+		if (SQLFetch(sqlStmtHandle) == SQL_SUCCESS) {
+			SQLGetData(sqlStmtHandle, 1, SQL_INTEGER, &id, 1, &ptrSqlVersion);
+		}
+	}
+	SQLCancel(sqlStmtHandle);
+	close();
+	return id;
+}
+
 void DBHelper::UDI(string s)
 {
 	init();

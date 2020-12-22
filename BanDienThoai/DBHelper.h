@@ -29,6 +29,7 @@ public:
 	void Select(vector<invoice>&);
 	void Select(vector<customer>&);
 	void Select(vector<invoice_detail>&);
+	int selectID(string);
 	void UDI(string); // update delete insert
 	void close();
 };

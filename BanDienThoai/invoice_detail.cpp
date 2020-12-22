@@ -8,11 +8,15 @@ invoice_detail::~invoice_detail()
 {
 }
 
-ostream& operator<<(ostream& o, const invoice_detail t)
+int invoice_detail::getInvoiceID()
 {
-	o << "Invoice_id: " << t.invoice_id<<endl;
-	o << "Smartphone_id: " << t.smartphone_id<<endl;
-	o << "Quantity: " << t.qty<<endl;
-	o << "Unit price: " << t.unit_price << endl;
-	return o;
+	return this->invoice_id;
+}
+
+void invoice_detail::setSmartphone(vector<smartphone> &S)
+{
+	for (int i = 0; i < S.size(); i++) {
+		if (this->smartphone_id == S[i].getID()) 
+			this->SM = &S[i];
+	}
 }

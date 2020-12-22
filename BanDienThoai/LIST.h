@@ -5,9 +5,7 @@
 class LIST
 {
 	vector<smartphone> SM;
-	vector<customer> CUS;
 	vector<invoice> INV;
-	vector<invoice_detail> DE;
 	LIST();
 	~LIST();
 	static LIST* instance; //singleton
@@ -18,10 +16,6 @@ public:
 	void DeleteSmartphone();
 	void updateSmartphone();
 	void searchSmartphone(string(*val)(smartphone),string);
-	customer* getCustomer(int ID);
-	smartphone* getSmartphone(int ID);
-	vector<invoice_detail*> getInvoiceDetail(int ID);
-	void hoadon();
 	void displayInvoice();
 	void buy();
 	void consult();

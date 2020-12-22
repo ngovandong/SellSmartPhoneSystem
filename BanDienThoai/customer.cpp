@@ -8,14 +8,11 @@ customer::~customer()
 {
 }
 
-ostream& operator<<(ostream& o, const customer& c)
+int customer::getCustomerID()
 {
-	//o << "Customer_id: " << c.customer_id << endl;
-	o << "Customer name: " << c.customer_name << endl;
-	o << "Phonenumber: " << c.phonenumber << endl;
-	o << "Address: " << c.address << endl;
-	return o;
+	return this->customer_id;
 }
+
 
 istream& operator>>(istream& i, customer& C)
 {
