@@ -19,9 +19,19 @@ public:
 	void displayInvoice();
 	void buy();
 	void consult();
-
+	void findIDSmartphone(int);
 };
 
+
+template<class T>
+inline void nhap(T &n) {
+	cin >> n;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore();
+		throw string("Nhap sai!");
+	}
+}
 
 inline bool increase(int a, int b) {
 	return a < b;

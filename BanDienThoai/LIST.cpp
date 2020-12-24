@@ -23,6 +23,7 @@ LIST::LIST()
 
 LIST::~LIST()
 {
+	LIST::instance = 0;
 	this->SM.clear();
 	this->INV.clear();
 }
@@ -72,8 +73,18 @@ void LIST::DeleteSmartphone()
 void LIST::updateSmartphone()
 {
 	int id;
-	cout << "Enter smartphone_id need to update: ";
-	cin >> id;
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Enter smartphone_id need to update: ";
+			nhap<int>(id);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
 	cin.ignore();
 	smartphone a;
 	cin >> a;
@@ -136,31 +147,64 @@ void LIST::buy()
 	int smartphone_id, qty;
 	vector<invoice_detail> DE;
 	while (true) {
-		cout << "\nChoose smartphone_id you need to buy: ";
-		cin >> smartphone_id;
-		cout << "Quantity: ";
-		cin >> qty;
-		int k ;
+		while (1) {
+			int kt = 1;
+			try {
+				while (1) {
+					int kt = 1;
+					try {
+						cout << "Enter smartphone_id need to buy: ";
+						nhap<int>(smartphone_id);
+					}
+					catch (string S) {
+						cout << S << endl;
+						kt = 0;
+					}
+					if (kt) break;
+				}
+				this->findIDSmartphone(smartphone_id);
+					
+			}
+			catch (string S) {
+				cout << S << endl;
+				kt = 0;
+			}
+			if (kt) break;
+		}
+		while (1) {
+			int kt = 1;
+			try {
+				cout << "Quantity: ";
+				nhap<int>(qty);
+			}
+			catch (string S) {
+				cout << S << endl;
+				kt = 0;
+			}
+			if (kt) break;
+		}
+		bool k ;
 		s2 = "exec  procupdatedata ";
 		s2 = s2 + to_string(invoice_id) + ", " + to_string(smartphone_id) + ", " + to_string(qty);
-		DBHelper::getInstance()->UDI(s2);
-		vector<invoice_detail> D;
-		DBHelper::getInstance()->Select(D);
-		DE.push_back(D.back());
-		D.clear();
-		DE.back().setSmartphone(this->SM);
-		cout << "Continue buy ? (if continue press 1, if finish press 0): ";
-		cin >> k;
+		if (!DBHelper::getInstance()->UDI(s2))
+			cout << "Out of stock! please choose another smartphone or enter lower quantity smartphone." << endl;
+		while (1) {
+			int kt = 1;
+			try {
+				cout << "Continue buy ? (if continue press 1, if finish press 0): ";
+				nhap<bool>(k);
+			}
+			catch (string S) {
+				cout << S << endl;
+				kt = 0;
+			}
+			if (kt) break;
+		}
 		if (k==0) break;
 	}
-	customer* c = new customer(customer_id, name, phone, address);
-	vector<invoice> I;
-	DBHelper::getInstance()->Select(I);
-	this->INV.push_back(I.back());
-	this->INV.back().setCustomer(*c);
-	this->INV.back().setInvoiceDetail(DE);
-	I.clear();
-	DE.clear();
+	this->~LIST();
+	LIST::getInstance();
+	DBHelper::getInstance()->UDI("delete from INVOICE where total=0 delete from CUSTOMER where customer_id not in (select customer_id from INVOICE");
 }
 
 
@@ -196,6 +240,15 @@ void LIST::consult()
 	quicksort(this->SM, rank, 0, n - 1);
 	for (int i = 0; i < 5; i++)
 		cout << this->SM[i];
+}
+
+void LIST::findIDSmartphone(int id)
+{
+	bool k = true;
+	for (int i = 0; i < this->SM.size(); i++)
+		if (id == this->SM[i].smartphone_id) k=false;
+	if(k)
+		throw string("Does not have this smartphone!\n");
 }
 
 

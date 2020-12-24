@@ -28,8 +28,18 @@ void UI::perform()
         cout << "5.Update inventory\n";
         cout << "6.Display invoice\n";
         cout << "7.Exit\n";
-        cout << "Choose function: ";
-        cin >> chon;
+        while (1) {
+            int kt = 1;
+            try {
+                cout << "Choose function: ";
+                this->cinInt(chon);
+            }
+            catch (string S) {
+                cout << S << endl;
+                kt = 0;
+            }
+            if (kt) break;
+        }
         system("cls");
         switch (chon)
         {
@@ -56,8 +66,19 @@ void UI::perform()
             break;
         default:
             cout << "Does not this function!" << endl;
+            system("pause");
             break;
         }
+    }
+}
+
+void UI::cinInt(int& n)
+{
+    cin >> n;
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore();
+        throw string("Nhap sai!");
     }
 }
 
@@ -67,10 +88,20 @@ void UI::function1()
     cout << "Search for:" << endl;
     cout << "1.Name" << endl;
     cout << "2.Brand" << endl;
-    cout << "Choose function: ";
     int chon;
     string s1, s2;
-    cin >> chon;
+    while (1) {
+        int kt = 1;
+        try {
+            cout << "Choose function: ";
+            this->cinInt(chon);
+        }
+        catch (string S) {
+            cout << S << endl;
+            kt = 0;
+        }
+        if (kt) break;
+    }
     system("cls");
     switch (chon)
     {
@@ -110,9 +141,20 @@ void UI::function2()
     cout << "4.Decrease sold" << endl;
     cout << "5.Lastest" << endl;
     cout << "6.Oldest" << endl;
-    cout << "Choose function: ";
+    
     int chon;
-    cin >> chon;
+    while (1) {
+        int kt = 1;
+        try {
+            cout << "Choose function: ";
+            this->cinInt(chon);
+        }
+        catch (string S) {
+            cout << S << endl;
+            kt = 0;
+        }
+        if (kt) break;
+    }
     system("cls");
     switch (chon)
     {
@@ -170,9 +212,19 @@ void UI::function5()
     cout << "1.Insert smartphone" << endl;
     cout << "2.Delete smartphone" << endl;
     cout << "3.Update smartphone" << endl;
-    cout << "Choose function: ";
     int chon;
-    cin >> chon;
+    while (1) {
+        int kt = 1;
+        try {
+            cout << "Choose function: ";
+            this->cinInt(chon);
+        }
+        catch (string S) {
+            cout << S << endl;
+            kt = 0;
+        }
+        if (kt) break;
+    }
     system("cls");
     switch (chon)
     {

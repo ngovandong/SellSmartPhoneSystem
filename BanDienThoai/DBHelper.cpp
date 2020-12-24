@@ -255,9 +255,10 @@ int DBHelper::selectID(string s)
 	return id;
 }
 
-void DBHelper::UDI(string s)
+bool DBHelper::UDI(string s)
 {
 	init();
+	bool k = true;
 	char* m = new char[s.length()];
 	strcpy_s(m, s.length() + 1, s.c_str());
 	if (SQL_SUCCESS != SQLExecDirectA(sqlStmtHandle, (SQLCHAR*)m, SQL_NTS)) {
@@ -265,13 +266,14 @@ void DBHelper::UDI(string s)
 		cout << "Error querying SQL Server";
 		cout << "\n";
 		close();
+		k = false;
 	}
 	else {
 
 		cout << "\nSUCCESS!\n";
-		return;
 	}
 	close();
+	return k;
 }
 
 
