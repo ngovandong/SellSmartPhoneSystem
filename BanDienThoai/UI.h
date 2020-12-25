@@ -8,7 +8,6 @@ class UI
 public:
 	static UI* getInstance();
 	void perform();
-	void cinInt(int&);
 	void function1();
 	void function2();
 	void function3();

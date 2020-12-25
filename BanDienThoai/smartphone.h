@@ -34,3 +34,28 @@ public:
 	string getName();
 	string getBrand();
 };
+
+
+template<class T>
+inline void nhap(T& n) {
+	cin >> n;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore();
+		throw string("syntax error!");
+	}
+}
+
+
+inline  void checkNegativeOrEqual0(int n) {
+	if (n < 0)
+		throw string("syntax error!");
+}
+inline  void checkNegative(int n) {
+	if (n <= 0)
+		throw string("syntax error!");
+}
+inline  void checkNegative(float n) {
+	if (n <= 0)
+		throw string("syntax error!");
+}

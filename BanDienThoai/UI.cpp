@@ -32,7 +32,7 @@ void UI::perform()
             int kt = 1;
             try {
                 cout << "Choose function: ";
-                this->cinInt(chon);
+                nhap<int>(chon);
             }
             catch (string S) {
                 cout << S << endl;
@@ -72,15 +72,7 @@ void UI::perform()
     }
 }
 
-void UI::cinInt(int& n)
-{
-    cin >> n;
-    if (cin.fail()) {
-        cin.clear();
-        cin.ignore();
-        throw string("Nhap sai!");
-    }
-}
+
 
 
 void UI::function1()
@@ -94,7 +86,7 @@ void UI::function1()
         int kt = 1;
         try {
             cout << "Choose function: ";
-            this->cinInt(chon);
+            nhap<int>(chon);
         }
         catch (string S) {
             cout << S << endl;
@@ -147,7 +139,7 @@ void UI::function2()
         int kt = 1;
         try {
             cout << "Choose function: ";
-            this->cinInt(chon);
+            nhap<int>(chon);
         }
         catch (string S) {
             cout << S << endl;
@@ -217,7 +209,7 @@ void UI::function5()
         int kt = 1;
         try {
             cout << "Choose function: ";
-            this->cinInt(chon);
+            nhap<int>(chon);
         }
         catch (string S) {
             cout << S << endl;

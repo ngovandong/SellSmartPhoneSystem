@@ -90,16 +90,111 @@ istream& operator>>(istream& i, smartphone& s)
 	cin.ignore();
 	getline(i, s.smartphone_name);
 	cout << "Brand: "; getline(i,s.brand);
-	cout << "Price: "; i >> s.price;
-	cout << "Quantity: "; i >> s.qty;
-	cout << "Sold: "; i >> s.qty_sold;
-	cout << "RAM: "; i >> s.RAM;
-	cout << "ROM: ";  i >> s.ROM;
-	cout << "Battery: "; i >> s.battery;
-	cout << "Screen: "; i >> s.screen;
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Price: ";
+			nhap<int>(s.price);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Quantity: ";
+			nhap<int>(s.qty);
+			checkNegative(s.qty);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Sold: ";
+			nhap<int>(s.qty_sold);
+			checkNegativeOrEqual0(s.qty_sold);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "RAM: ";
+			nhap<int>(s.RAM);
+			checkNegative(s.RAM);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "ROM: ";
+			nhap<int>(s.ROM);
+			checkNegative(s.ROM);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Battery: ";
+			nhap<int>(s.battery);
+			checkNegative(s.battery);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Screen: ";
+			nhap<float>(s.screen);
+			checkNegative(s.screen);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
 	i.ignore();
 	cout << "Color: "; getline(i,s.color);
-	cout << "Cameras: "; i >> s.cameras;
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Cameras: ";
+			nhap<int>(s.cameras);
+			checkNegative(s.cameras);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
 	i.ignore();
 	cout << "Warranty: ";getline(i,s.warranty);
 	cout << "Others: "; getline(i,s.others);

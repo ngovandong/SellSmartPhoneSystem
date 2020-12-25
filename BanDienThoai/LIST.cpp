@@ -62,7 +62,19 @@ void LIST::DeleteSmartphone()
 {
 	int smartphone_id;
 	cout << "Enter smartphone_id need delete: ";
-	cin >> smartphone_id;
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Price >=: ";
+			nhap<int>(smartphone_id);
+			this->findIDSmartphone(smartphone_id);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
 	string s= "update SMARTPHONE set deleted=1 where smartphone_id= ";
 	s += to_string(smartphone_id);
 	DBHelper::getInstance()->UDI(s);
@@ -78,6 +90,7 @@ void LIST::updateSmartphone()
 		try {
 			cout << "Enter smartphone_id need to update: ";
 			nhap<int>(id);
+			this->findIDSmartphone(id);
 		}
 		catch (string S) {
 			cout << S << endl;
@@ -140,9 +153,7 @@ void LIST::buy()
 	DBHelper::getInstance()->UDI(s1);
 	int invoice_id = DBHelper::getInstance()->selectID("select max(invoice_id) from INVOICE");
 	system("cls");
-	for (int i = 0; i < this->SM.size(); i++) {
-		cout << this->SM[i];
-	}
+	this->displaySmartphone(increase, orderByID);
 	string s2;
 	int smartphone_id, qty;
 	vector<invoice_detail> DE;
@@ -163,7 +174,6 @@ void LIST::buy()
 					if (kt) break;
 				}
 				this->findIDSmartphone(smartphone_id);
-					
 			}
 			catch (string S) {
 				cout << S << endl;
@@ -176,6 +186,7 @@ void LIST::buy()
 			try {
 				cout << "Quantity: ";
 				nhap<int>(qty);
+				checkNegative(qty);
 			}
 			catch (string S) {
 				cout << S << endl;
@@ -217,19 +228,118 @@ void LIST::consult()
 	cout << "Band: "; 
 	cin.ignore();
 	getline(cin, brand);
-	cout << "Price >=: "; cin >> priceLow;
-	cout << "Price <=: "; cin >> priceUp;
-	cout << "ROM: "; cin >> rom;
-	cout << "RAM: "; cin >> ram;
-	cout << "Battery >=: "; cin >> battery;
-	cout << "Screen >=: "; cin>>screenLow;
-	cout << "Screen <=: "; cin>>screenUp;
-	cout << "Cameras: "; cin >> cameras;
+	transform(brand.begin(), brand.end(), brand.begin(), ::tolower);
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Price >=: ";
+			nhap<int>(priceLow);
+			checkNegativeOrEqual0(priceLow);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Price <=: ";
+			nhap<int>(priceUp);
+			checkNegative(priceUp);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "ROM: ";
+			nhap<int>(rom);
+			checkNegative(rom);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "RAM: ";
+			nhap<int>(ram);
+			checkNegative(ram);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Battery >=: ";
+			nhap<int>(battery);
+			checkNegativeOrEqual0(battery);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Screen >=: ";
+			nhap<float>(screenLow);
+			checkNegativeOrEqual0(screenLow);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Screen <=: ";
+			nhap<float>(screenUp);
+			checkNegative(screenUp);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
+	while (1) {
+		int kt = 1;
+		try {
+			cout << "Cameras: ";
+			nhap<int>(cameras);
+			checkNegative(cameras);
+		}
+		catch (string S) {
+			cout << S << endl;
+			kt = 0;
+		}
+		if (kt) break;
+	}
 	int n = this->SM.size();
 	int* rank = new int[n];
 	for (int i = 0; i < n; i++) {
 		rank[i] = 0;
-		if (brand.compare(this->SM[i].brand)==0) rank[i]+=4;
+		string temp = this->SM[i].brand;
+		transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
+		if (brand.compare(temp)==0) rank[i]+=4;
 		if (priceLow <= this->SM[i].price&&this->SM[i].price<=priceUp) rank[i]+=4;
 		if (rom == this->SM[i].ROM) rank[i] ++;
 		if (ram == this->SM[i].RAM) rank[i] ++;
