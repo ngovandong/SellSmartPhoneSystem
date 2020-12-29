@@ -2,6 +2,7 @@
 
 invoice_detail::invoice_detail(int a, int b, int c, int d):invoice_id(a),smartphone_id(b),qty(c),unit_price(d)
 {
+	this->SM = nullptr;
 }
 
 invoice_detail::~invoice_detail()

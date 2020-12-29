@@ -46,16 +46,19 @@ inline void nhap(T& n) {
 	}
 }
 
-
 inline  void checkNegativeOrEqual0(int n) {
 	if (n < 0)
 		throw string("syntax error!");
 }
-inline  void checkNegative(int n) {
-	if (n <= 0)
-		throw string("syntax error!");
+
+inline void checkNegative(int n) {
+	if (n <= 0) throw string("syntax error!");
 }
-inline  void checkNegative(float n) {
-	if (n <= 0)
+inline void checkNegative(float n) {
+	if (n <= 0) throw string("syntax error!");
+}
+template <class T>
+inline void checkGreater(T t1, T t2) {
+	if (t1 <= t2)
 		throw string("syntax error!");
 }

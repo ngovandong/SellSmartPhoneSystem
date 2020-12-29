@@ -25,7 +25,7 @@ class DBHelper
 public:
 	static DBHelper* getInstance();
 	void init();
-	void Select(vector<smartphone>&);
+	void Select(vector<smartphone>&, char);
 	void Select(vector<invoice>&);
 	void Select(vector<customer>&);
 	void Select(vector<invoice_detail>&);

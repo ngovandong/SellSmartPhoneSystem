@@ -7,12 +7,15 @@ LIST::LIST()
 {
 	vector<customer> CUS;
 	vector<invoice_detail> DE;
-	DBHelper::getInstance()->Select(this->SM);
+	DBHelper::getInstance()->Select(this->SM,'0');
+	DBHelper::getInstance()->Select(this->SMD, '1');
 	DBHelper::getInstance()->Select(DE);
 	DBHelper::getInstance()->Select(CUS);
 	DBHelper::getInstance()->Select(this->INV);
-	for (int i = 0; i < DE.size(); i++)
+	for (int i = 0; i < DE.size(); i++) {
 		DE[i].setSmartphone(this->SM);
+		DE[i].setSmartphone(this->SMD);
+	}
 	for (int i = 0; i < this->INV.size(); i++) {
 		this->INV[i].setCustomer(CUS);
 		this->INV[i].setInvoiceDetail(DE);
@@ -55,7 +58,7 @@ void LIST::addSmartphone()
 		+ "," + to_string(a.screen) + ",'" + a.color + "'," + to_string(a.cameras) + ",'" + a.warranty + "','" + a.others + "')";
 	DBHelper::getInstance()->UDI(s);
 	this->SM.clear();
-	DBHelper::getInstance()->Select(this->SM);
+	DBHelper::getInstance()->Select(this->SM,'0');
 }
 
 void LIST::DeleteSmartphone()
@@ -79,7 +82,7 @@ void LIST::DeleteSmartphone()
 	s += to_string(smartphone_id);
 	DBHelper::getInstance()->UDI(s);
 	this->SM.clear();
-	DBHelper::getInstance()->Select(this->SM);
+	DBHelper::getInstance()->Select(this->SM,'0');
 }
 
 void LIST::updateSmartphone()
@@ -109,7 +112,7 @@ void LIST::updateSmartphone()
 		+ "' where smartphone_id= " + to_string(id);
 	DBHelper::getInstance()->UDI(s);
 	this->SM.clear();
-	DBHelper::getInstance()->Select(this->SM);
+	DBHelper::getInstance()->Select(this->SM,'0');
 }
 
 
@@ -213,9 +216,10 @@ void LIST::buy()
 		}
 		if (k==0) break;
 	}
+	DBHelper::getInstance()->UDI("delete from INVOICE where total=0 delete from CUSTOMER where customer_id not in (select customer_id from INVOICE)");
 	this->~LIST();
 	LIST::getInstance();
-	DBHelper::getInstance()->UDI("delete from INVOICE where total=0 delete from CUSTOMER where customer_id not in (select customer_id from INVOICE");
+	
 }
 
 
@@ -229,6 +233,7 @@ void LIST::consult()
 	cin.ignore();
 	getline(cin, brand);
 	transform(brand.begin(), brand.end(), brand.begin(), ::tolower);
+	
 	while (1) {
 		int kt = 1;
 		try {
@@ -247,7 +252,7 @@ void LIST::consult()
 		try {
 			cout << "Price <=: ";
 			nhap<int>(priceUp);
-			checkNegative(priceUp);
+			checkGreater<int>(priceUp, priceLow);
 		}
 		catch (string S) {
 			cout << S << endl;
@@ -312,7 +317,7 @@ void LIST::consult()
 		try {
 			cout << "Screen <=: ";
 			nhap<float>(screenUp);
-			checkNegative(screenUp);
+			checkGreater<float>(screenUp,screenLow);
 		}
 		catch (string S) {
 			cout << S << endl;

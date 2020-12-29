@@ -5,6 +5,7 @@
 class LIST
 {
 	vector<smartphone> SM;
+	vector<smartphone> SMD;
 	vector<invoice> INV;
 	LIST();
 	~LIST();

@@ -75,12 +75,16 @@ void DBHelper::init()
 }
 
 
-void DBHelper::Select(vector<smartphone> &S)
+void DBHelper::Select(vector<smartphone>& S, char c)
 {
 	init();
 	//if there is a problem executing the query then exit application
 	//else display query result
-	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM SMARTPHONE where deleted= 0 ", SQL_NTS)) {
+	string s = "Select * from SMARTPHONE where deleted= " ;
+	s += c;
+	char* m = new char[s.length()];
+	strcpy_s(m, s.length() + 1, s.c_str());
+	if (SQL_SUCCESS != SQLExecDirectA(sqlStmtHandle, (SQLCHAR*)m, SQL_NTS)) {
 		cout << "Error querying SQL Server";
 		cout << "\n";
 		close();
@@ -130,6 +134,7 @@ void DBHelper::Select(vector<smartphone> &S)
 	SQLCancel(sqlStmtHandle);
 	close();
 }
+
 
 void DBHelper::Select(vector<customer> &S) {
 	//if there is a problem executing the query then exit application
@@ -265,8 +270,8 @@ bool DBHelper::UDI(string s)
 		cout << "\n";
 		cout << "Error querying SQL Server";
 		cout << "\n";
-		close();
 		k = false;
+		//close();
 	}
 	else {
 
