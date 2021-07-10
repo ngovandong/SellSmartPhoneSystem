@@ -91,7 +91,7 @@ void DBHelper::Select(vector<smartphone>& S, char c)
 	}
 	else {
 		//declare output variable and pointer
-		SQLINTEGER ptrSqlVersion;
+		SQLLEN ptrSqlVersion;
 		int smartphone_id;
 		char smartphone_name[51];
 		char brand[21];
@@ -105,7 +105,7 @@ void DBHelper::Select(vector<smartphone>& S, char c)
 		char color[21];
 		int cameras;
 		char warranty[21];
-		char others[101];
+		char others[300];
 		int i = 0;
 		while (SQLFetch(sqlStmtHandle) == SQL_SUCCESS) {
 
@@ -147,7 +147,7 @@ void DBHelper::Select(vector<customer> &S) {
 	}
 	else {
 		//declare output variable and pointer
-		SQLINTEGER ptrSqlVersion;
+		SQLLEN ptrSqlVersion;
 		int customer_id;
 		char customer_name[30];
 		char phonenumber[21];
@@ -179,7 +179,7 @@ void DBHelper::Select(vector<invoice> &S) {
 	}
 	else {
 		//declare output variable and pointer
-		SQLINTEGER ptrSqlVersion;
+		SQLLEN ptrSqlVersion;
 		int invoice_id;
 		int customer_id;
 		char datebuy[20];
@@ -214,7 +214,7 @@ void DBHelper::Select(vector<invoice_detail> &S) {
 	}
 	else {
 		//declare output variable and pointer
-		SQLINTEGER ptrSqlVersion;
+		SQLLEN ptrSqlVersion;
 		int invoice_id;
 		int smartphone_id;
 		int qty;
@@ -250,7 +250,7 @@ int DBHelper::selectID(string s)
 	}
 	else {
 		//declare output variable and pointer
-		SQLINTEGER ptrSqlVersion;
+		SQLLEN ptrSqlVersion;
 		if (SQLFetch(sqlStmtHandle) == SQL_SUCCESS) {
 			SQLGetData(sqlStmtHandle, 1, SQL_INTEGER, &id, 1, &ptrSqlVersion);
 		}
